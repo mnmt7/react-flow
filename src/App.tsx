@@ -92,9 +92,14 @@ export default function App() {
       const { resourceType, label, resourceId } = node.data;
 
       setNodes((prevNodes) => {
-        const end = prevNodes.findLastIndex(
-          (n: EntityNode) => n.data.resourceType === resourceType
-        );
+        let end = -1;
+        for (let i = prevNodes.length - 1; i >= 0; i--) {
+          if (prevNodes[i].data.resourceType === resourceType) {
+            end = i;
+            break;
+          }
+        }
+
         const newNodes = prevNodes.slice(0, end + 1);
         return newNodes;
       });
