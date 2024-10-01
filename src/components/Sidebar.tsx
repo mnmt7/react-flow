@@ -32,7 +32,7 @@ export default function Sidebar({ meal, closePanel }: SidebarProps) {
       </header>
       <div className="p-3 text-sm">
         <div>
-          <img src={thumb} alt="" height={372} />
+          <img src={thumb} alt="" height="372px" className="w-full" />
         </div>
         {tags && (
           <ul className="flex gap-1 my-3">
