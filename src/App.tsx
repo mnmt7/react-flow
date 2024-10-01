@@ -14,7 +14,7 @@ import "@xyflow/react/dist/style.css";
 
 import Sidebar from "./components/Sidebar";
 import Loading from "./components/Loading";
-import Error from "./components/Error";
+import ErrorEl from "./components/Error";
 import {
   fetchCategories,
   fetchMeal,
@@ -39,12 +39,7 @@ export default function App() {
   const [edges, setEdges] = useEdgesState<Edge>([]);
 
   const setNodesAndEdges = useCallback(
-    (
-      items: Item[] = [],
-      parentNode: EntityNode,
-      nodeType: "entity" | "option" = "option",
-      resourceType: string
-    ) => {
+    (items: Item[] = [], parentNode: EntityNode, resourceType: string) => {
       const startY = parentNode.position.y - ((items.length - 1) * DIST_Y) / 2;
 
       const newNodes: EntityNode[] = [];
@@ -54,7 +49,7 @@ export default function App() {
         const id = nanoid();
         const newNode: EntityNode = {
           id,
-          type: nodeType,
+          type: "entity",
           data: {
             label: item.label,
             resourceType,
@@ -105,7 +100,6 @@ export default function App() {
       });
 
       let items: Item[] = [];
-      // let type: "entity" | "option" = "entity";
       let newResourceType: string = "";
 
       if (resourceType === "explore") {
@@ -113,7 +107,6 @@ export default function App() {
         newResourceType = "category";
       } else if (resourceType === "category" || resourceType === "ingredient") {
         items = [{ id: label, label: "View Meals" }];
-        // type = "option";
         newResourceType = `view/${resourceType}`;
       } else if (resourceType.startsWith("view")) {
         items = await fetchMeals({
@@ -128,20 +121,19 @@ export default function App() {
 
         items = [
           {
-            id: nanoid(),
+            id: "",
             label: "View Ingredients",
           },
           {
-            id: nanoid(),
+            id: "",
             label: "View Tags",
           },
           {
-            id: nanoid(),
+            id: "",
             label: "View Details",
           },
         ];
 
-        // type = "option";
         newResourceType = "meal-details";
       } else if (
         resourceType === "meal-details" &&
@@ -163,7 +155,7 @@ export default function App() {
         }
 
         items = currentMeal.tags.map((tag) => ({
-          id: nanoid(),
+          id: tag,
           label: tag,
         }));
 
@@ -172,7 +164,7 @@ export default function App() {
         setShowPanel((prevShowPanel) => !prevShowPanel);
       }
 
-      setNodesAndEdges(items, node, "entity", newResourceType);
+      setNodesAndEdges(items, node, newResourceType);
     },
     [setNodesAndEdges, currentMeal, setNodes]
   );
@@ -189,8 +181,9 @@ export default function App() {
       try {
         await handleNodeClickInternal(event, node);
       } catch (error) {
-        console.error(error);
-        setError("Failed to fetch data");
+        const errorMessage =
+          error instanceof Error ? error.message : "Unknown error occurred";
+        setError(`Failed to fetch data. ${errorMessage}`);
         setTimeout(() => {
           setError(null);
         }, 3000);
@@ -220,7 +213,7 @@ export default function App() {
       )}
       {error && (
         <Panel position="top-center">
-          <Error error={error} />
+          <ErrorEl error={error} />
         </Panel>
       )}
       {loading && (

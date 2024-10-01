@@ -6,4 +6,4 @@ type EntityData = {
   resourceId: string;
 };
 
-export type EntityNode = Node<EntityData, "entity" | "explore" | "option">;
+export type EntityNode = Node<EntityData, "entity">;

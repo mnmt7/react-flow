@@ -42,25 +42,26 @@ export default function Sidebar({ meal, closePanel }: SidebarProps) {
           </ul>
         )}
         <div className="flex flex-col gap-2 text-[14px] mb-4">
-          <p className="flex gap-4">
+          <p className="grid grid-cols-[3fr_4fr]">
             <span className="text-gray-600">Category</span>
             <span className="text-gray-800">{category}</span>
           </p>
-          <p className="grid grid-cols-2">
+          <p className="grid grid-cols-[3fr_4fr]">
             <span className="text-gray-600">Area</span>
             <span className="text-gray-800">{area}</span>
           </p>
-          <p className="grid grid-cols-2">
+          <p className="grid grid-cols-[3fr_4fr]">
             <span className="text-gray-600">Youtube</span>
-            <a href={youtube} className="underline text-[14px]">
+            <a href={youtube} className="underline text-[14px]" target="_blank">
               {youtube}
             </a>
           </p>
-          <p className="grid grid-cols-2">
+          <p className="grid grid-cols-[3fr_4fr]">
             <span className="text-gray-600">Recipe</span>
             <a
               href={youtube}
               className="underline text-[14px]"
+              target="_blank"
             >{`https://www.bbcgoodfood.com/recipes/`}</a>
           </p>
         </div>

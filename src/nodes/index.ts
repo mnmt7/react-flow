@@ -14,6 +14,6 @@ export const initialNodes: EntityNode[] = [
       resourceType: "explore",
       resourceId: "explore",
     },
-    position: { x: 100, y: 250 },
+    position: { x: 50, y: 200 },
   },
 ];
