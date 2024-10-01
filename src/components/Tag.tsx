@@ -11,7 +11,7 @@ const colors = [
   { border: "border-black", bg: "bg-white" },
 ];
 
-export default function Tag({ tag }) {
+export default function Tag({ tag }: { tag: string }) {
   const { border, bg } = colors[Math.floor(Math.random() * colors.length)];
   return (
     <li
